@@ -112,27 +112,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/bottombar_image/selected/
-    - assets/bottombar_image/unselected/
-    - assets/button_image/
-    - assets/data/
-    - assets/Entry_image/
-    - assets/FakeItemsForLive/
-    - assets/gallary_image/
-    - assets/gallary_image/flash_sale/
-    - assets/gif/
-    - assets/Home_page_image/
-    - assets/Home_page_image/just_for_you/
-    - assets/Home_page_image/live_selling/
-    - assets/Home_page_image/new_collection/
-    - assets/icons/
-    - assets/Live_page_image/
-    - assets/lottie/
-    - assets/no_data_found/
-    - assets/product_detail/
-    - assets/product_review/
-    - assets/profile_icons/
+  # assets:
+    # - assets/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
