@@ -17,6 +17,11 @@ keytool -genkey -v -keystore sochio-release-key.jks -keyalg RSA -keysize 2048 -v
 
 ### 3. Convert Keystore to Base64
 ```bash
+# On Windows:
+certutil -encode sochio-release-key.jks keystore.txt
+# Then copy content between BEGIN/END lines
+
+# On Mac/Linux:
 base64 -i sochio-release-key.jks | pbcopy
 ```
 
