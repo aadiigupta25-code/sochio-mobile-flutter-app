@@ -32,10 +32,7 @@ class LoginApi extends GetxService {
         'identity': identity,
       };
 
-      final response = await _apiClient.post(
-        endpoint: Constant.userLogin,
-        body: requestBody,
-      );
+      final response = await _apiClient.post(Constant.userLogin, requestBody);
 
       log("Login response: $response");
 
