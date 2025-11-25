@@ -17,7 +17,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:platform_device_id/platform_device_id.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -43,7 +43,13 @@ Future<void> main() async {
   await GetStorage.init();
 
   ///************** IDENTIFY **************************\\\
-  identify = (await PlatformDeviceId.getDeviceId)!;
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  try {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    identify = androidInfo.id;
+  } catch (e) {
+    identify = 'unknown';
+  }
   log("Android Id :: $identify");
 
   ///************** FCM token ************************\\\
