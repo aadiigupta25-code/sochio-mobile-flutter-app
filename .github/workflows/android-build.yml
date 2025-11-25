@@ -1,0 +1,73 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.27.0'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+    
+    - name: Clear Gradle properties and set JAVA_HOME
+      run: |
+        rm -f ~/.gradle/gradle.properties
+        rm -f android/gradle.properties
+        echo "org.gradle.java.home=$JAVA_HOME" > android/gradle.properties
+        echo "android.useAndroidX=true" >> android/gradle.properties
+        echo "android.enableJetifier=true" >> android/gradle.properties
+        echo "org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g" >> android/gradle.properties
+        echo "org.gradle.daemon=false" >> android/gradle.properties
+        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+    
+    - name: Run tests
+      run: flutter test
+    
+    # Keystore setup skipped - build unsigned APK for now
+    # - name: Create keystore file
+    #   run: |
+    #     echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
+    # 
+    # - name: Create key.properties
+    #   run: |
+    #     echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+    #     echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+    #     echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+    #     echo "storeFile=keystore.jks" >> android/key.properties
+    
+    - name: Build APK
+      run: flutter build apk --release
+    
+    - name: Build App Bundle
+      run: flutter build appbundle --release
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+    
+    - name: Upload App Bundle
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-aab
+        path: build/app/outputs/bundle/release/app-release.aab

@@ -1,0 +1,114 @@
+        plugins {
+            id "com.android.application"
+            id "kotlin-android"
+            id "dev.flutter.flutter-gradle-plugin"
+            id "com.google.gms.google-services"
+        }
+
+        def keystoreProperties = new Properties()
+        def keystorePropertiesFile = rootProject.file('key.properties')
+        if (keystorePropertiesFile.exists()) {
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        }
+
+        def localProperties = new Properties()
+        def localPropertiesFile = rootProject.file('local.properties')
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.withReader('UTF-8') { reader ->
+                localProperties.load(reader)
+            }
+        }
+
+        def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+        if (flutterVersionCode == null) {
+            flutterVersionCode = '1'
+        }
+
+        def flutterVersionName = localProperties.getProperty('flutter.versionName')
+        if (flutterVersionName == null) {
+            flutterVersionName = '1.0'
+        }
+
+        android {
+            namespace "com.sochio.app"
+            compileSdk 36
+
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+
+            kotlinOptions {
+                jvmTarget = '17'
+            }
+
+            lint {
+                disable 'InvalidPackage'
+                checkReleaseBuilds false
+                abortOnError false
+            }
+
+            dependenciesInfo {
+                includeInApk false
+                includeInBundle false
+            }
+
+            android.packagingOptions {
+                pickFirst 'META-INF/proguard/androidx-*.pro'
+            }
+
+            sourceSets {
+                main.java.srcDirs += 'src/main/kotlin'
+            }
+
+            signingConfigs {
+                release {
+                    keyAlias keystoreProperties['keyAlias']
+                    keyPassword keystoreProperties['keyPassword']
+                    storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                    storePassword keystoreProperties['storePassword']
+                }
+            }
+
+            defaultConfig {
+                applicationId "com.sochio.app"
+                minSdk 22
+                targetSdk 36
+                versionCode 2
+                versionName "2.0"
+                multiDexEnabled true
+            }
+
+            packagingOptions {
+                exclude 'META-INF/DEPENDENCIES'
+                exclude 'META-INF/LICENSE'
+                exclude 'META-INF/LICENSE.txt'
+                exclude 'META-INF/license.txt'
+                exclude 'META-INF/NOTICE'
+                exclude 'META-INF/NOTICE.txt'
+                exclude 'META-INF/notice.txt'
+                exclude 'META-INF/ASL2.0'
+                exclude 'META-INF/*.kotlin_module'
+            }
+
+            buildTypes {
+                release {
+                    signingConfig signingConfigs.debug
+                    minifyEnabled false
+                    shrinkResources false
+                }
+                debug {
+                    minifyEnabled false
+                    // Suppress Kotlin metadata warnings
+                    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                }
+            }
+        }
+
+        flutter {
+            source '../..'
+        }
+
+        dependencies {
+            implementation 'androidx.multidex:multidex:2.0.1'
+        }

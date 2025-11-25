@@ -1,0 +1,2 @@
+C:/Users/Kartikey/Desktop/Flutter App/Flutter App/era_shop/android/app/.cxx/Debug/473v5y32/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Kartikey/Desktop/Flutter App/Flutter App/era_shop/android/app/.cxx/Debug/473v5y32/arm64-v8a/CMakeFiles/rebuild_cache.dir
