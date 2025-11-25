@@ -9,12 +9,13 @@ class ApiClient {
     return await http.get(url);
   }
   
-  Future<http.Response> post(String endpoint, Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> data) async {
     final url = Uri.parse('$baseUrl$endpoint');
-    return await http.post(
+    final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: json.encode(data),
     );
+    return json.decode(response.body);
   }
 }
