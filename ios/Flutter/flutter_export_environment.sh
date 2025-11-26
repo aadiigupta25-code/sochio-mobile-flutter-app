@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=D:\android\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\Kartikey\Desktop\Flutter App\Flutter App\era_shop"
+export "FLUTTER_ROOT=D:\FlutterDev\flutter"
+export "FLUTTER_APPLICATION_PATH=C:\Sochio Files\Source Code\Flutter App\era_shop"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
