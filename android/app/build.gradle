@@ -2,7 +2,15 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services"
+}
+
+// Apply Google Services plugin only if google-services.json exists
+def googleServicesFile = file('google-services.json')
+if (googleServicesFile.exists()) {
+    apply plugin: 'com.google.gms.google-services'
+    println "✅ Applied Google Services plugin (google-services.json found)"
+} else {
+    println "⚠️  Skipping Google Services plugin (google-services.json not found)"
 }
 
 def localProperties = new Properties()
